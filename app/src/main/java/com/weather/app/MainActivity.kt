@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.jaredrummler.materialspinner.MaterialSpinner
 import com.squareup.picasso.Picasso
 import com.weather.app.data.model.DailyWeather
@@ -65,6 +66,17 @@ class MainActivity : AppCompatActivity() {
 
         val recycler = findViewById<RecyclerView>(R.id.recyclerWeather)
 
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
+        swipeRefreshLayout.setOnRefreshListener {
+            if (listOfTown.isNotEmpty()){
+                uiScope.launch {
+                    weatherTransactionViewModel.dailyWeather(listOfTown[selectedIndex].lat!!, listOfTown[selectedIndex].lon!!)
+                    textPlace.apply {
+                        text = "${listOfTown[selectedIndex].name}, Poland"
+                    }
+                }
+            }
+        }
         val btnAdd = findViewById<Button>(R.id.btnAdd)
         btnAdd.setOnClickListener {
             val bottomSheet = TownSheetDialog()
@@ -74,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         val btnRefresh = findViewById<Button>(R.id.btnRefresh)
         btnRefresh.setOnClickListener {
             if (listOfTown.isNotEmpty()){
+                swipeRefreshLayout.isRefreshing = true
                 uiScope.launch {
                     weatherTransactionViewModel.dailyWeather(listOfTown[selectedIndex].lat!!, listOfTown[selectedIndex].lon!!)
                     textPlace.apply {
@@ -96,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         spinner.setItems(listOfTown)
         spinner.setOnItemSelectedListener { view, position, id, item ->
+            swipeRefreshLayout.isRefreshing = true
             selectedIndex = position
             val selected = item as Town
             uiScope.launch {
@@ -130,6 +144,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            swipeRefreshLayout.isRefreshing = false
 
 
 
@@ -156,6 +171,7 @@ class MainActivity : AppCompatActivity() {
                 text = estmted
             }
             Picasso.get().load(Uri.parse("https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png")).into(currentWeatherIcon)
+            swipeRefreshLayout.isRefreshing = false
         })
     }
 }

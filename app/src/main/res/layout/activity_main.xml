@@ -1,212 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/primary"
-    android:padding="16dp"
-    >
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:hint="@string/choose_your_city"
-        app:ms_hint_color="@color/white"
-        app:ms_background_color="@color/secondary"
-        app:ms_text_color="@color/white"
-        android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/town_spinner"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/textDate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/town_spinner"
-        android:layout_marginTop="16dp"
-        tools:text="Wednesday, July 22"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/textPlace"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textDate"
-        tools:text="Warsaw, Poland"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <View
-        android:id="@+id/divider"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textPlace"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"/>
-
-
-    <LinearLayout
-        android:id="@+id/parent_humidity"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_weight="1"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:background="@color/primary"
+        android:padding="16dp"
+        >
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:hint="@string/choose_your_city"
+            app:ms_hint_color="@color/white"
+            app:ms_background_color="@color/secondary"
+            app:ms_text_color="@color/white"
+            android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textDate"
-            android:text="@string/humidity"
-            android:textAlignment="textStart"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/town_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/textDate"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/town_spinner"
+            android:layout_marginTop="16dp"
+            tools:text="Wednesday, July 22"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/humidity"
-            android:layout_weight="1"
+            android:id="@+id/textPlace"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textDate"
-            tools:text="1013,25 hPa."
-            android:textAlignment="textEnd"
+            tools:text="Warsaw, Poland"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/parent_estimated"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/parent_humidity"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_weight="1"
+        <View
+            android:id="@+id/divider"
+            android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textDate"
-            android:text="@string/estimated"
-            android:textAlignment="textStart"
-            android:textColor="@color/white"
-            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/textPlace"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/estimated"
-            android:layout_weight="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textDate"
-            tools:text="65%"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:layout_height="2dp"/>
 
 
-    <LinearLayout
-        android:id="@+id/parent_weather"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/parent_estimated"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_weight="1"
+            android:id="@+id/parent_humidity"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/currentWeatherIcon"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/currentWeather"
                 android:layout_weight="1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textDate"
-                tools:text="Clouds"
-                android:textAlignment="center"
+                android:text="@string/humidity"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textDate"
+                tools:text="1013,25 hPa."
+                android:textAlignment="textEnd"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/temp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
+        <LinearLayout
+            android:id="@+id/parent_estimated"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textDate"
-            tools:text="28°"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="90sp"
+            app:layout_constraintTop_toBottomOf="@id/parent_humidity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <View
-        android:id="@+id/divider2"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/parent_weather"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerWeather"
-        android:scrollbars="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:id="@+id/parent_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerWeather"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_margin="8dp"
-            android:text="Add own town"
-            android:background="@color/secondary"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btnRefresh"
-            android:layout_margin="8dp"
-            android:text="Refresh Method"
-            android:background="@color/secondary"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textDate"
+                android:text="@string/estimated"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/estimated"
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textDate"
+                tools:text="65%"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/parent_weather"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parent_estimated"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/currentWeatherIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+                <TextView
+                    android:id="@+id/currentWeather"
+                    android:layout_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textDate"
+                    tools:text="Clouds"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/temp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textDate"
+                tools:text="28°"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="90sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <View
+            android:id="@+id/divider2"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parent_weather"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerWeather"
+            android:scrollbars="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/parent_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerWeather"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_margin="8dp"
+                android:text="Add own town"
+                android:background="@color/secondary"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_margin="8dp"
+                android:text="Refresh Method"
+                android:background="@color/secondary"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
