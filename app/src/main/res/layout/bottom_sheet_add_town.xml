@@ -21,8 +21,7 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         android:hint="Name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"/>
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/lat"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,8 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/name"
         android:hint="Latitude"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"/>
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/lon"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -39,8 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/lat"
         android:hint="Longitude"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"/>
+        android:layout_height="wrap_content"/>
     <Button
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
