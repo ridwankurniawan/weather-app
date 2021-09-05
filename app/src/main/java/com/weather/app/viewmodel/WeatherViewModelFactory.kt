@@ -8,14 +8,14 @@ import com.weather.app.data.datasource.TownRepository
 import com.weather.app.data.datasource.WeatherDatasource
 import com.weather.app.data.datasource.WeatherRepository
 
-class WeatherViewModelFactory() : ViewModelProvider.Factory {
+class WeatherViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WeatherViewModel::class.java)) {
             return WeatherViewModel(
                     weatherRepository = WeatherRepository(
-                            dataSource = WeatherDatasource()
+                            dataSource = WeatherDatasource(context)
                     )
             ) as T
         }

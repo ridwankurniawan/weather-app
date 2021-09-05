@@ -1,6 +1,5 @@
 package com.weather.app.ui.bottomsheet
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +28,7 @@ class TownSheetDialog : BottomSheetDialogFragment() {
 
         townTransactionViewModel = ViewModelProvider(
                 this,
-                WeatherViewModelFactory()
+                WeatherViewModelFactory(requireContext())
         ).get(TownViewModel::class.java)
 
         val btnSaveTown: Button = v.findViewById(R.id.btnSaveTown)

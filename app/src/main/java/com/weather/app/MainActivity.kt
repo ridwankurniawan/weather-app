@@ -41,12 +41,12 @@ class MainActivity : AppCompatActivity() {
 
         weatherTransactionViewModel = ViewModelProvider(
                 this,
-                WeatherViewModelFactory()
+                WeatherViewModelFactory(this)
         ).get(WeatherViewModel::class.java)
 
         townTransactionViewModel = ViewModelProvider(
                 this,
-                WeatherViewModelFactory()
+                WeatherViewModelFactory(this)
         ).get(TownViewModel::class.java)
 
         setContentView(R.layout.activity_main)
