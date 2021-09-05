@@ -39,6 +39,8 @@ class TownSheetDialog : BottomSheetDialogFragment() {
         btnSaveTown.setOnClickListener {
             uiScope.launch {
                 townTransactionViewModel.addTown(Town(name.text.toString(),lat.text.toString().toDouble(),lon.text.toString().toDouble()))
+                townTransactionViewModel.getTowns()
+                this@TownSheetDialog.dismiss()
             }
         }
         return v

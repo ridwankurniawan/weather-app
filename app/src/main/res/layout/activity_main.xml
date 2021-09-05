@@ -25,12 +25,21 @@
             android:id="@+id/town_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/current_gps_position"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/town_spinner"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_gps_position"/>
 
         <TextView
             android:id="@+id/textDate"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/town_spinner"
+            app:layout_constraintTop_toBottomOf="@id/current_gps_position"
             android:layout_marginTop="16dp"
             tools:text="Wednesday, July 22"
             android:textAlignment="center"

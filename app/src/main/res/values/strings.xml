@@ -5,4 +5,5 @@
     <string name="choose_your_city">Choose your City</string>
     <string name="add_own_town">Add own Town</string>
     <string name="save">Save</string>
+    <string name="current_gps_position">Current GPS position</string>
 </resources>

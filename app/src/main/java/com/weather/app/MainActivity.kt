@@ -1,16 +1,20 @@
 package com.weather.app
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.jaredrummler.materialspinner.MaterialSpinner
 import com.squareup.picasso.Picasso
 import com.weather.app.data.model.DailyWeather
@@ -37,23 +41,88 @@ class MainActivity : AppCompatActivity() {
     private val listOfTown = arrayListOf<Town>()
     private val listOfDailyWeather = arrayListOf<DailyWeather>()
     private var selectedIndex = 0
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private fun requestPermissions() {
+
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            1
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty()
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    getCurrentLocation()
+                } else {
+
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Permission denied to access your Location",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return
+            }
+        }
+    }
+    private fun getCurrentLocation(){
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions()
+            return
+        }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location !=null){
+                    uiScope.launch {
+                        weatherTransactionViewModel.dailyWeather(
+                            location.latitude,
+                            location.longitude
+                        )
+                    }
+
+                }else{
+                    Toast.makeText(this, "Your Location isn't detected", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+    lateinit var spinner : MaterialSpinner
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         weatherTransactionViewModel = ViewModelProvider(
-                this,
-                WeatherViewModelFactory(this)
+            this,
+            WeatherViewModelFactory(this)
         ).get(WeatherViewModel::class.java)
 
         townTransactionViewModel = ViewModelProvider(
-                this,
-                WeatherViewModelFactory(this)
+            this,
+            WeatherViewModelFactory(this)
         ).get(TownViewModel::class.java)
 
         setContentView(R.layout.activity_main)
-        //INIT
 
-        val spinner = findViewById<View>(R.id.town_spinner) as MaterialSpinner
+        spinner = findViewById<View>(R.id.town_spinner) as MaterialSpinner
         val currentWeatherIcon = findViewById<View>(R.id.currentWeatherIcon) as ImageView
         val temp = findViewById<View>(R.id.temp) as TextView
         val currentWeather = findViewById<View>(R.id.currentWeather) as TextView
@@ -64,13 +133,42 @@ class MainActivity : AppCompatActivity() {
         val textDate = findViewById<View>(R.id.textDate) as TextView
         val textPlace = findViewById<View>(R.id.textPlace) as TextView
 
-        val recycler = findViewById<RecyclerView>(R.id.recyclerWeather)
 
+
+        val currentGpsPosition = findViewById<View>(R.id.current_gps_position) as CheckBox
+        currentGpsPosition.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                spinner.isEnabled = false
+                uiScope.launch {
+                    textPlace.apply {
+                        text = "Your Current Location"
+                    }
+                }
+                getCurrentLocation()
+            }else{
+                spinner.isEnabled = true
+                if (listOfTown.isNotEmpty()){
+                    uiScope.launch {
+                        weatherTransactionViewModel.dailyWeather(
+                            listOfTown[selectedIndex].lat!!,
+                            listOfTown[selectedIndex].lon!!
+                        )
+                        textPlace.apply {
+                            text = "${listOfTown[selectedIndex].name}, Poland"
+                        }
+                    }
+                }
+            }
+        }
+        val recycler = findViewById<RecyclerView>(R.id.recyclerWeather)
         val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
         swipeRefreshLayout.setOnRefreshListener {
             if (listOfTown.isNotEmpty()){
                 uiScope.launch {
-                    weatherTransactionViewModel.dailyWeather(listOfTown[selectedIndex].lat!!, listOfTown[selectedIndex].lon!!)
+                    weatherTransactionViewModel.dailyWeather(
+                        listOfTown[selectedIndex].lat!!,
+                        listOfTown[selectedIndex].lon!!
+                    )
                     textPlace.apply {
                         text = "${listOfTown[selectedIndex].name}, Poland"
                     }
@@ -80,15 +178,20 @@ class MainActivity : AppCompatActivity() {
         val btnAdd = findViewById<Button>(R.id.btnAdd)
         btnAdd.setOnClickListener {
             val bottomSheet = TownSheetDialog()
-            bottomSheet.show(supportFragmentManager,
-                    "ModalBottomSheet")
+            bottomSheet.show(
+                supportFragmentManager,
+                "ModalBottomSheet"
+            )
         }
         val btnRefresh = findViewById<Button>(R.id.btnRefresh)
         btnRefresh.setOnClickListener {
             if (listOfTown.isNotEmpty()){
                 swipeRefreshLayout.isRefreshing = true
                 uiScope.launch {
-                    weatherTransactionViewModel.dailyWeather(listOfTown[selectedIndex].lat!!, listOfTown[selectedIndex].lon!!)
+                    weatherTransactionViewModel.dailyWeather(
+                        listOfTown[selectedIndex].lat!!,
+                        listOfTown[selectedIndex].lon!!
+                    )
                     textPlace.apply {
                         text = "${listOfTown[selectedIndex].name}, Poland"
                     }
@@ -124,7 +227,7 @@ class MainActivity : AppCompatActivity() {
             townTransactionViewModel.getTowns()
         }
         townTransactionViewModel.townResult.observe(this, {
-            if (it.isEmpty()){
+            if (it.isEmpty()) {
                 uiScope.launch {
                     townTransactionViewModel.addTown(Town("Gdansk", 54.3612063, 18.5499456))
                     townTransactionViewModel.addTown(Town("Warszawa", 52.2330653, 20.9211123))
@@ -133,11 +236,14 @@ class MainActivity : AppCompatActivity() {
                     townTransactionViewModel.addTown(Town("Lodz", 51.7732033, 19.4105531))
                     townTransactionViewModel.getTowns()
                 }
-            }else{
+            } else {
                 listOfTown.clear()
                 listOfTown.addAll(it)
                 uiScope.launch {
-                    weatherTransactionViewModel.dailyWeather(listOfTown[0].lat!!, listOfTown[0].lon!!)
+                    weatherTransactionViewModel.dailyWeather(
+                        listOfTown[0].lat!!,
+                        listOfTown[0].lon!!
+                    )
                     spinner.selectedIndex = 0
                     textPlace.apply {
                         text = "${listOfTown[0].name}, Poland"
@@ -145,7 +251,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             swipeRefreshLayout.isRefreshing = false
-
 
 
         })
@@ -170,7 +275,11 @@ class MainActivity : AppCompatActivity() {
             estimated.apply {
                 text = estmted
             }
-            Picasso.get().load(Uri.parse("https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png")).into(currentWeatherIcon)
+            Picasso.get()
+                .load(Uri.parse("https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"))
+                .into(
+                    currentWeatherIcon
+                )
             swipeRefreshLayout.isRefreshing = false
         })
     }
