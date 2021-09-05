@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="humidity">Humidity</string>
+    <string name="estimated">Estimated</string>
+    <string name="choose_your_city">Choose your City</string>
+    <string name="add_own_town">Add own Town</string>
+    <string name="save">Save</string>
+</resources>
